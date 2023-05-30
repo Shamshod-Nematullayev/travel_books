@@ -50,8 +50,36 @@ const addTravel = async (req, res) => {
   }
 };
 
+const updateTravel = async (req, res) => {
+  try {
+    const { title, image, descr } = req.body;
+    const updatedTravel = await Travel.findByIdAndUpdate(req.params.id, {
+      title,
+      image,
+      descr,
+    });
+    res.status(200).json({
+      message: "success",
+      updatedTravel,
+    });
+  } catch (err) {
+    res.send(err);
+  }
+};
+
+const deleteTravel = async (req, res) => {
+  try {
+    await Travel.findByIdAndRemove(req.params.id);
+    res.status(200).json({ message: "Deleted" });
+  } catch (err) {
+    res.send(err);
+  }
+};
+
 module.exports = {
   getAllTravels,
   getTravelById,
   addTravel,
+  updateTravel,
+  deleteTravel,
 };
